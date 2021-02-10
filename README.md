@@ -19,12 +19,12 @@ python3 analyzer.py -f test_files/ntds.dit -n test_files/ntlm_cracked.txt -l tes
 
 We have cracked 6 NTLM hashes and 7 LM hashes:
 
-[Image0](images/image0.png)
+![Image0](images/image0.png)
 
 We run the script and see we have the value of 12 NTLM hashes now (we got the correct value from the LM hash and testing all the possibilities):
 
-[Image1](images/image1.png)
+![Image1](images/image1.png)
 
 We also get the list of users and their passwords:
 
-[Image2](images/image2.png)
+![Image2](images/image2.png)
