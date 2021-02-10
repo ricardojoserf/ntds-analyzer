@@ -21,14 +21,18 @@ python3 analyzer.py -f NTDS.DIT -n NTLM_CRACKED_HASHES -l LM_CRACKED_HASHES
 python3 analyzer.py -f test_files/ntds.dit -n test_files/ntlm_cracked.txt -l test_files/lm_cracked.txt
 ```
 
-We have cracked 6 NTLM hashes and 7 LM hashes using [Hashcat](https://github.com/hashcat/hashcat):
+We start with 5 NTLM and 7 LM cracked hashes and the ntds.dit file:
 
 ![Image0](images/image0.png)
 
-We run the script and see we have the value of 12 NTLM hashes now (we got the correct value from the LM hash and testing all the possibilities):
+The script shows the number of hashes and the most common ones:
 
 ![Image1](images/image1.png)
 
-We also get the list of users and their passwords:
+Then it shows the cracked hashes. We have 11 NTLM hashes now because we calculated the password from the related LM hashes (explained [here](https://github.com/ricardojoserf/LM_original_password_cracker)):
 
 ![Image2](images/image2.png)
+
+Finally we get the list of users and their passwords in *user:password* format:
+
+![Image3](images/image3.png)
