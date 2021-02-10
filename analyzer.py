@@ -6,7 +6,7 @@ import argparse
 import itertools as it
 from collections import Counter 
 
-top_most_common_hashes = 5
+top_most_common_hashes = 10
 
 
 def get_args():
@@ -42,8 +42,9 @@ def most_common_hashes(list_, dict_, keys, type_ = "", maxval = top_most_common_
 	for h in occurence_count.most_common(maxval):
 		hash_ = h[0]
 		times = h[1]
-		password = dict_[hash_] if hash_ in keys else "??? (Password not cracked)"
+		password = dict_[hash_] if hash_ in keys else "(Password not cracked)"
 		print("%s - %s times (Password: %s)"%(hash_, times, password))
+
 
 
 def main():
@@ -64,15 +65,17 @@ def main():
 	for n in ntlm_lines:
 		hash_ = n.split(":")[0]
 		pass_ = n.split(":")[1]
-		ntlm_dict[hash_] = pass_
+		if hash_ != "31d6cfe0d16ae931b73c59d7e0c089c0":
+			ntlm_dict[hash_] = pass_
 
 
 	# Create dictionary with LM cracked hashes
-	for l in lm_lines:
-		hash_ = l.split(":")[0]
-		pass_ = l.split(":")[1]
-		if hash_ != "aad3b435b51404eeaad3b435b51404ee":
-			lm_dict[hash_] = pass_
+	if lm_lines is not None:
+		for l in lm_lines:
+			hash_ = l.split(":")[0]
+			pass_ = l.split(":")[1]
+			if hash_ != "aad3b435b51404eeaad3b435b51404ee":
+				lm_dict[hash_] = pass_
 
 	# Create list with users info
 	for l in ntds_lines:
@@ -93,22 +96,23 @@ def main():
 			password = ""
 		all_info.append({"username":username, "ntlm_hash": ntlm_hash, "lm_hash": lm_hash, "password": password})
 
-	print("Total NTLM hashes:     %s"%(len(all_ntlm)))
+	print("\nTotal NTLM hashes:     %s"%(len(all_ntlm)))
 	print("Different NTLM hashes: %s"%(len((set(all_ntlm)))))
-
 	print("\nTotal LM hashes:       %s"%(len(all_lm)))
 	print("Different LM hashes:   %s"%(len((set(all_lm)))))
 
 	most_common_hashes(all_ntlm, ntlm_dict, ntlm_dict.keys(), "NTLM")
-	most_common_hashes(all_lm, lm_dict, lm_dict.keys(), "LM")
+	if lm_lines is not None:
+		most_common_hashes(all_lm, lm_dict, lm_dict.keys(), "LM")
 
 	print("\n[+] Cracked NTLM hashes")
 	for h in ntlm_dict:
 		print("%s:%s" % (h, ntlm_dict[h]))
 
-	print("\n[+] Cracked LM hashes")
-	for h in lm_dict:
-		print("%s:%s" % (h, lm_dict[h]))
+	if lm_lines is not None:
+		print("\n[+] Cracked LM hashes")
+		for h in lm_dict:
+			print("%s:%s" % (h, lm_dict[h]))
 
 	print("\n[+] Cracked credentials")
 	for a in all_info:
