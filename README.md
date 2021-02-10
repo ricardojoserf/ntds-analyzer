@@ -29,7 +29,7 @@ The script shows the number of hashes and the most common ones:
 
 ![Image1](images/image1.png)
 
-Then it shows the cracked hashes. We have 11 NTLM hashes now because we calculated the password from the related LM hashes (explained [here](https://github.com/ricardojoserf/LM_original_password_cracker)):
+Then it shows the cracked hashes. We have 11 cracked NTLM hashes now because we calculated the password from the related LM hashes:
 
 ![Image2](images/image2.png)
 
