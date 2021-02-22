@@ -6,8 +6,8 @@ import argparse
 import itertools as it
 from collections import Counter 
 
-top_most_common_hashes = 10
-
+top_most_common_hashes = 5
+output_file = "credentials.txt"
 
 def get_args():
 	parser = argparse.ArgumentParser()
@@ -42,7 +42,7 @@ def most_common_hashes(list_, dict_, keys, type_ = "", maxval = top_most_common_
 	for h in occurence_count.most_common(maxval):
 		hash_ = h[0]
 		times = h[1]
-		password = dict_[hash_] if hash_ in keys else "(Password not cracked)"
+		password = dict_[hash_] if hash_ in keys else "[Password not cracked]"
 		print("%s - %s times (Password: %s)"%(hash_, times, password))
 
 
@@ -105,6 +105,16 @@ def main():
 	if lm_lines is not None:
 		most_common_hashes(all_lm, lm_dict, lm_dict.keys(), "LM")
 
+	print("\n[+] Accounts with the same username and password")
+	for a in all_info:
+		if len(a.get("username").split('\\'))>=2:
+			user = a.get("username").split('\\')[1]
+		else:
+			user = a.get("username")
+		pwd_ = a.get("password")
+		if user == pwd_:
+			print("%s:%s" %(a.get("username"), pwd_))
+
 	print("\n[+] Cracked NTLM hashes")
 	for h in ntlm_dict:
 		print("%s:%s" % (h, ntlm_dict[h]))
@@ -118,7 +128,11 @@ def main():
 	for a in all_info:
 		if a.get("password") != "":
 			print("%s:%s" %(a.get("username"), a.get("password")))
+			with open(output_file, 'a') as out:
+				out.write('%s:%s\n' %(a.get("username"), a.get("password")))
+
+	print("\n[+] Cracked credentials stored in %s\n"%(output_file))
 
 
 if __name__ == "__main__":
-    main()
+	main()
