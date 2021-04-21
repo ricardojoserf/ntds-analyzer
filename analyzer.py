@@ -13,7 +13,7 @@ def get_args():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-f', '--ntds', required=True, action='store', help='Username')
 	parser.add_argument('-l', '--lm', required=False, action='store', help='Password')
-	parser.add_argument('-n', '--ntlm', required=True, action='store', help='Option')
+	parser.add_argument('-n', '--ntlm', required=False, action='store', help='Option')
 	my_args = parser.parse_args()
 	return my_args
 
@@ -51,7 +51,7 @@ def main():
 
 	args = get_args()
 	ntds_lines = open(args.ntds).read().splitlines()
-	ntlm_lines = open(args.ntlm).read().splitlines()
+	ntlm_lines = open(args.ntlm).read().splitlines() if args.ntlm is not None else None
 	lm_lines = open(args.lm).read().splitlines() if args.lm is not None else None
 
 	all_ntlm = []
@@ -62,11 +62,12 @@ def main():
 
 
 	# Create dictionary with NTLM cracked hashes
-	for n in ntlm_lines:
-		hash_ = n.split(":")[0]
-		pass_ = n.split(":")[1]
-		if hash_ != "31d6cfe0d16ae931b73c59d7e0c089c0":
-			ntlm_dict[hash_] = pass_
+	if ntlm_lines is not None:
+		for n in ntlm_lines:
+			hash_ = n.split(":")[0]
+			pass_ = n.split(":")[1]
+			if hash_ != "31d6cfe0d16ae931b73c59d7e0c089c0":
+				ntlm_dict[hash_] = pass_
 
 
 	# Create dictionary with LM cracked hashes
