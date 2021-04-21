@@ -14,7 +14,7 @@ A tool to analyze hashes in Ntds.dit files once the NTLM and LM hashes have been
 ### Usage
 
 ```
-python3 analyzer.py -f NTDS.DIT -n NTLM_CRACKED_HASHES -l LM_CRACKED_HASHES
+python3 analyzer.py -f NTDS.DIT [-n NTLM_CRACKED_HASHES] [-l LM_CRACKED_HASHES]
 ```
 
 ### Example
