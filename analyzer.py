@@ -138,7 +138,7 @@ def main():
 		pwd_ = a.get("password")
 		if user == pwd_:
 			print("%s:%s" %(a.get("username"), pwd_))
-
+		
 	
 	if ntlm_lines is not None:
 		print("\n[+] Cracked NTLM hashes")
@@ -154,7 +154,7 @@ def main():
 				occurence_count += counter[i]
 		if len(ntlm_dict) >= 1:  print("[+] %s out of %s different hashes cracked (%.2f %%)"%(len(ntlm_dict),len((set(all_ntlm))),float(100*(len(ntlm_dict)/len((set(all_ntlm)))))))
 		if occurence_count >= 1: print("[+] %s out of %s total hashes cracked (%.2f %%)"%(occurence_count, len((all_ntlm)), float(100*(occurence_count/len((all_ntlm)))) ))
-		print("[+] Cracked NTLM hashes appended to %s\n"%(output_file_ntlm))
+		print("[+] Cracked NTLM hashes appended to %s"%(output_file_ntlm))
 
 
 	if lm_lines is not None:
@@ -171,7 +171,7 @@ def main():
 				occurence_count += counter[i]
 		if len(lm_dict) >= 1:    print("[+] %s out of %s different hashes cracked (%.2f %%)"%(len(lm_dict),len((set(all_lm))),float(100*(len(lm_dict)/len((set(all_lm)))))))	
 		if occurence_count >= 1: print("[+] %s out of %s total hashes cracked (%.2f %%)"%(occurence_count, len((all_lm)), float(100*(occurence_count/len((all_lm)))) ))
-		print("[+] Cracked LM hashes appended to %s\n"%(output_file_lm))
+		print("[+] Cracked LM hashes appended to %s"%(output_file_lm))
 
 
 	print("\n[+] Cracked credentials")
@@ -183,7 +183,7 @@ def main():
 			with open(output_file_creds, 'a') as out:
 				out.write('%s:%s\n' %(a.get("username"), a.get("password")))
 	if total_pwnd >= 1: print("[+] %s out of %s different hashes (%.2f %%)"%(total_pwnd, len(all_ntlm), float(100*(total_pwnd/len(all_ntlm))) ) )
-	print("[+] Cracked credentials appended to %s\n"%(output_file_creds))
+	print("[+] Cracked credentials appended to %s"%(output_file_creds))
 
 
 if __name__ == "__main__":
