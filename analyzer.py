@@ -1,5 +1,3 @@
-import os
-import sys
 import hashlib
 import binascii
 import argparse
@@ -7,7 +5,6 @@ import itertools as it
 from collections import Counter 
 
 output_file_creds = "credentials.txt"
-output_file_lm = "cracked_lm.txt"
 output_file_ntlm = "cracked_ntlm.txt"
 
 
@@ -138,7 +135,11 @@ def main():
 		pwd_ = a.get("password")
 		if user == pwd_:
 			print("%s:%s" %(a.get("username"), pwd_))
-		
+	
+	print("\n[+] Accounts with the string 'admin' in username or password")
+	for a in all_info:
+		if "admin" in a.get("username") or "admin" in a.get("password"):
+			print("%s:%s" %(a.get("username"), a.get("password")))
 	
 	if ntlm_lines is not None:
 		print("\n[+] Cracked NTLM hashes")
@@ -152,6 +153,7 @@ def main():
 		for i in counter:
 			if i in cracked_ntlm:
 				occurence_count += counter[i]
+		if debug: print("")
 		if len(ntlm_dict) >= 1:  print("[+] %s out of %s different hashes cracked (%.2f %%)"%(len(ntlm_dict),len((set(all_ntlm))),float(100*(len(ntlm_dict)/len((set(all_ntlm)))))))
 		if occurence_count >= 1: print("[+] %s out of %s total hashes cracked (%.2f %%)"%(occurence_count, len((all_ntlm)), float(100*(occurence_count/len((all_ntlm)))) ))
 		print("[+] Cracked NTLM hashes appended to %s"%(output_file_ntlm))
@@ -161,18 +163,16 @@ def main():
 		print("\n[+] Cracked LM hashes")
 		for h in lm_dict:
 			if debug: print("%s:%s" % (h, lm_dict[h]))
-			with open(output_file_lm, 'a') as out:
-				out.write('%s:%s\n' %(h, lm_dict[h]))
 		cracked_lm = lm_dict.keys()
 		counter = Counter(all_lm)
 		occurence_count = 0
 		for i in counter:
 			if i in cracked_lm:
 				occurence_count += counter[i]
+		if debug: print("")
 		if len(lm_dict) >= 1:    print("[+] %s out of %s different hashes cracked (%.2f %%)"%(len(lm_dict),len((set(all_lm))),float(100*(len(lm_dict)/len((set(all_lm)))))))	
 		if occurence_count >= 1: print("[+] %s out of %s total hashes cracked (%.2f %%)"%(occurence_count, len((all_lm)), float(100*(occurence_count/len((all_lm)))) ))
-		print("[+] Cracked LM hashes appended to %s"%(output_file_lm))
-
+		
 
 	print("\n[+] Cracked credentials")
 	total_pwnd = 0
@@ -182,6 +182,7 @@ def main():
 			if debug: print("%s:%s" %(a.get("username"), a.get("password")))
 			with open(output_file_creds, 'a') as out:
 				out.write('%s:%s\n' %(a.get("username"), a.get("password")))
+	if debug: print("")
 	if total_pwnd >= 1: print("[+] %s out of %s different hashes (%.2f %%)"%(total_pwnd, len(all_ntlm), float(100*(total_pwnd/len(all_ntlm))) ) )
 	print("[+] Cracked credentials appended to %s"%(output_file_creds))
 
