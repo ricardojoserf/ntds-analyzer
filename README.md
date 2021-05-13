@@ -1,26 +1,32 @@
 # ntds-analyzer
 
-A tool to analyze hashes in Ntds.dit files once the NTLM and LM hashes have been cracked.
+A script to analyze hashes in Ntds.dit files once the NTLM and LM hashes have been cracked. Compared to other similar tools, it offers improvements such as calculating the plaintext password when the LM hash has been cracked but not the NTLM (as I explained [in this blog](https://github.com/ricardojoserf/LM_original_password_cracker)). 
 
-- Top most common NTLM and LM hashes
+It also offers information such as:
 
-- List of accounts using the same username and password
+- Top most common NTLM and LM hashes.
 
-- Calculate the plaintext password when the LM hash has been cracked but not the NTLM (explained [here](https://github.com/ricardojoserf/LM_original_password_cracker))
+- List of compromised accounts using the same username and password.
 
-- List of credentials in *user:password* format
+- List of compromised accounts with the string "admin" in the username or password.
+
+- Save the list of cracked credentials in *user:password* format in text files.
+
+- Save the list of cracked NTLM and/or LM hashes in *hash:password* format in text files.
 
 
 ### Usage
 
 ```
-python3 analyzer.py -f NTDS.DIT [-n NTLM_CRACKED_HASHES] [-l LM_CRACKED_HASHES]
+python3 analyzer.py -f NTDS.DIT [-n NTLM_CRACKED_HASHES] [-l LM_CRACKED_HASHES] [-m TOP_MOST_COMMON_PASSWORDS] [-d DEBUG]
 ```
+
+You can use a file with NTLM cracked hashes in *hash:password* (*-n* parameter), a file with LM cracked hashes in *hash:password* (*-l* parameter) or both. You can set how many most common hashes you want to calculate (*-m* parameter) and if you want to print the hashes in the screen (*-d* parameter).
 
 ### Example
 
 ```
-python3 analyzer.py -f test_files/ntds.dit -n test_files/ntlm_cracked.txt -l test_files/lm_cracked.txt
+python3 analyzer.py -f test_files/ntds.dit -n test_files/ntlm_cracked.txt -l test_files/lm_cracked.txt -m 5 -d True
 ```
 
 We start with 4 NTLM and 8 LM cracked hashes and the Ntds.dit file:
