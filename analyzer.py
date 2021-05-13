@@ -138,7 +138,7 @@ def main():
 	
 	print("\n[+] Accounts with the string 'admin' in username or password")
 	for a in all_info:
-		if "admin" in a.get("username") or "admin" in a.get("password"):
+		if ("admin" in a.get("username").lower() or "admin" in a.get("password").lower()) and a.get("password") != "":
 			print("%s:%s" %(a.get("username"), a.get("password")))
 	
 	if ntlm_lines is not None:
