@@ -1,6 +1,6 @@
 # ntds-analyzer
 
-A script to analyze hashes in Ntds.dit files once the NTLM and LM hashes have been cracked. 
+A script to analyze Ntds.dit files once the NTLM and LM hashes have been cracked. 
 
 Compared to other similar tools, it offers the improvement of calculating the plaintext password when the LM hash has been cracked but not the NTLM (as I explained [in this repository](https://github.com/ricardojoserf/LM_original_password_cracker)). 
 
@@ -14,8 +14,10 @@ It also offers:
 
 - Percentage of cracked unique and total hashes and accounts.
 
-- Save the list of cracked credentials (in *user:password* format) and NTLM hashes (in *hash:password* format) in a text file.
+- Save the list of cracked credentials and NTLM hashes in text files.
 
+
+-----------------------------------
 
 
 ### Usage
@@ -34,6 +36,7 @@ python3 analyzer.py -f NTDS.DIT [-n NTLM_CRACKED_HASHES] [-l LM_CRACKED_HASHES] 
 
 - -d: Debug mode to print hashes (Optional. Default: False)
 
+-----------------------------------
 
 
 ### Example
