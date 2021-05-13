@@ -115,12 +115,13 @@ def main():
 		all_info.append({"username":username, "ntlm_hash": ntlm_hash, "lm_hash": lm_hash, "password": password})
 
 
-	print("\n[+] Total LM hashes:       %s"%(len(all_lm)))
-	print("[+] Different LM hashes:   %s"%(len((set(all_lm)))))
-
 	print("\n[+] Total NTLM hashes:     %s"%(len(all_ntlm)))
 	print("[+] Different NTLM hashes: %s"%(len((set(all_ntlm)))))
 	
+	print("\n[+] Total LM hashes:       %s"%(len(all_lm)))
+	print("[+] Different LM hashes:   %s"%(len((set(all_lm)))))
+
+
 	if ntlm_lines is not None:
 		most_common_hashes(all_ntlm, ntlm_dict, ntlm_dict.keys(), top_most_common, "NTLM")
 	
